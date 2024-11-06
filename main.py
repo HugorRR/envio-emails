@@ -8,6 +8,11 @@ from dataclasses import dataclass
 import logging
 from pathlib import Path
 import sys
+from streamlit_quill import st_quill
+import base64
+import requests
+from PIL import Image
+import io
 
 logging.basicConfig(
     level=logging.INFO,
@@ -101,13 +106,11 @@ class StreamlitUI:
         st.sidebar.header("Ajuda", divider=True)
         st.sidebar.info("Clique em Download para baixar o tutorial de como criar a senha no google apps.")
         self.download_tutorial()
-
         
         st.sidebar.markdown("""
        💜 Gostou do projeto? Me pague um café!
         
         **PIX:** hugorogerio522@gmail.com""")
-       
 
     def download_tutorial(self):
         """Gerencia download do tutorial"""
@@ -125,7 +128,31 @@ class StreamlitUI:
         st.header("SISTEMA DE ENVIO DE E-MAILS EM MASSA", divider=True)
         
         subject = st.text_input("Digite o assunto do e-mail", placeholder="Assunto do e-mail")
-        body = st.text_area("Digite o corpo do e-mail", height=300)
+        
+        # Editor rico para o corpo do email
+        st.subheader("Corpo do E-mail")
+        st.info("Use o editor abaixo para formatar seu email. Você pode adicionar formatação, links e imagens.")
+        
+        # Configuração do editor Quill
+        email_body = st_quill(
+            placeholder="Digite o conteúdo do seu email aqui...",
+            html=True,
+            key="quill",
+            toolbar=[
+                ['bold', 'italic', 'underline', 'strike'],
+                ['blockquote', 'code-block'],
+                [{'header': 1}, {'header': 2}],
+                [{'list': 'ordered'}, {'list': 'bullet'}],
+                [{'script': 'sub'}, {'script': 'super'}],
+                [{'indent': '-1'}, {'indent': '+1'}],
+                ['link', 'image'],
+                [{'size': ['small', False, 'large', 'huge']}],
+                [{'color': []}, {'background': []}],
+                ['clean']
+            ]
+        )
+        
+    
         
         single_recipient = st.text_input(
             "Digite o e-mail do destinatário único (opcional)", 
@@ -148,7 +175,7 @@ class StreamlitUI:
                 return
 
         if st.button("Enviar e-mail"):
-            self.handle_send_button(single_recipient, file, email_column, subject, body)
+            self.handle_send_button(single_recipient, file, email_column, subject, email_body)
 
     def handle_send_button(self, single_recipient, file, email_column, subject, body):
         """Processa o envio de emails"""
