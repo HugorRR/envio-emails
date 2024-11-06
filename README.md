@@ -20,7 +20,7 @@ Um sistema web desenvolvido com Streamlit para envio de emails em massa de forma
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/sistema-emails-massa.git
+git clone https://github.com/HugorRR/sistema-emails-massa.git
 cd sistema-emails-massa
 ```
 
