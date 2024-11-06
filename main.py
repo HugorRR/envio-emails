@@ -9,10 +9,7 @@ import logging
 from pathlib import Path
 import sys
 from streamlit_quill import st_quill
-import base64
-import requests
 from PIL import Image
-import io
 
 logging.basicConfig(
     level=logging.INFO,
@@ -81,9 +78,19 @@ class EmailProcessor:
             raise
 
 class StreamlitUI:
-    """Classe para interface do usuário Streamlit"""
+    """Interface do usuário Streamlit"""
     def __init__(self):
         self.config = None
+        self.set_page_config()
+
+    def set_page_config(self):
+        """Configuracao da página"""
+        st.set_page_config(
+            page_title="Envio de Emails",
+            page_icon='📧',
+            layout="wide",
+            initial_sidebar_state="expanded"
+        )
         
     def sidebar(self):
         """Configura a barra lateral"""
