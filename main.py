@@ -159,8 +159,6 @@ class StreamlitUI:
             ]
         )
         
-    
-        
         single_recipient = st.text_input(
             "Digite o e-mail do destinatário único (opcional)", 
             placeholder="exemplo@dominio.com"
@@ -236,10 +234,47 @@ class StreamlitUI:
         else:
             st.warning(f"Enviados {successes} de {total} emails. Alguns envios falharam.")
 
+def show_terms_and_conditions():
+        st.title("Termo de Uso e Política de Privacidade")
+        st.markdown("""
+    ## Termo de Uso
+    A utilização deste sistema de envio de emails em massa está sujeita aos seguintes termos:
+
+    1. **Uso Autorizado**: O sistema é fornecido para uso pessoal ou empresarial legítimo. Você concorda em não utilizá-lo para fins ilegais, spam ou atividades prejudiciais.
+
+    2. **Propriedade Intelectual**: Todo o conteúdo, design e funcionalidades do sistema são de propriedade da Envio de emails e estão protegidos por leis de propriedade intelectual. Você não possui direitos de propriedade sobre esses elementos.
+
+    3. **Limitação de Responsabilidade**: A Envio de emails não se responsabiliza por quaisquer danos decorrentes do uso deste sistema. Você é o único responsável por garantir que seus envios estejam de acordo com as leis aplicáveis.
+
+    4. **Modificações**: Estes Termos de Uso podem ser atualizados periodicamente. É sua responsabilidade verificar por possíveis atualizações.
+
+    ## Política de Privacidade
+    A Envio de emails valoriza sua privacidade. Ao utilizar este sistema, você concorda com as seguintes práticas:
+
+    1. **Coleta de Dados**: Coletamos endereços de email fornecidos por você ou obtidos de listas aprovadas. Esses dados serão utilizados apenas para o envio de emails.
+
+    2. **Uso de Dados**: Usaremos seus dados de email apenas para o envio de campanhas. Não compartilharemos seus dados com terceiros, exceto se necessário para a prestação deste serviço.
+
+    3. **Armazenamento de Dados**: Seus dados de email serão armazenados de forma segura e seram excluídos após a atualização da pagina.
+
+    ## Consentimento
+    Ao utilizar este sistema de envio de emails, você declara ter lido e concordado com os Termos de Uso e a Política de Privacidade acima.
+    """)
+        agree = st.checkbox("Eu li e aceito os Termos de Uso e Política de Privacidade")
+        if agree:
+            st.session_state['accepted_terms'] = True
+            st.rerun()
+
+
 def main():
-    ui = StreamlitUI()
-    ui.sidebar()
-    ui.main_page()
+    if 'accepted_terms' not in st.session_state:
+        st.session_state['accepted_terms'] = False
+    if not st.session_state['accepted_terms']:
+        show_terms_and_conditions()
+    else:
+        ui = StreamlitUI()
+        ui.sidebar()
+        ui.main_page()
 
 if __name__ == "__main__":
     main()
