@@ -2,6 +2,8 @@
 
 Um sistema web desenvolvido com Streamlit para envio de emails em massa de forma simples e eficiente.
 
+## Acesse o site: https://envio-emails.streamlit.app/
+
 ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.32.0-red.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
