@@ -11,6 +11,20 @@ import sys
 from streamlit_quill import st_quill
 from PIL import Image
 
+def update_access_counter():
+    try:
+        with open('access_counter.txt', 'r') as f:
+            count = int(f.read())
+    except FileNotFoundError:
+        count = 0
+
+    count += 1
+
+    with open('access_counter.txt', 'w') as f:
+        f.write(str(count))
+
+    return count
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -275,6 +289,8 @@ def main():
         ui = StreamlitUI()
         ui.sidebar()
         ui.main_page()
+        access_count = update_access_counter()
+        st.sidebar.markdown(f"👥 Número de acessos: {access_count}")
 
 if __name__ == "__main__":
     main()
